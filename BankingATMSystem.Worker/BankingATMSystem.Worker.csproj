@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-BankingATMSystem.Worker-d69d16b9-0a5c-45d8-a842-2ac0538bde0e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BankingATMSystem.Application\BankingATMSystem.Application.csproj" />
+    <ProjectReference Include="..\BankingATMSystem.Infrastructure\BankingATMSystem.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

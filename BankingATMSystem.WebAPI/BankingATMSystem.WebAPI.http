@@ -1,0 +1,6 @@
+@BankingATMSystem.WebAPI_HostAddress = http://localhost:5197
+
+GET {{BankingATMSystem.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.ATMController",
+    "Method": "Withdraw",
+    "RelativePath": "api/ATM/withdraw",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BankingATMSystem.Application.Features.Withdraw.WithdrawCommand",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

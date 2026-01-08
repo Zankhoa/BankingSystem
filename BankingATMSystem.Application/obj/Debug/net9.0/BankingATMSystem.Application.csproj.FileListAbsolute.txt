@@ -1,0 +1,15 @@
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\bin\Debug\net9.0\BankingATMSystem.Application.deps.json
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\bin\Debug\net9.0\BankingATMSystem.Application.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\bin\Debug\net9.0\BankingATMSystem.Application.pdb
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\bin\Debug\net9.0\BankingATMSystem.Domain.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\bin\Debug\net9.0\BankingATMSystem.Domain.pdb
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.csproj.AssemblyReference.cache
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.AssemblyInfoInputs.cache
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.AssemblyInfo.cs
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.csproj.CoreCompileInputs.cache
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingA.F07364F0.Up2Date
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\refint\BankingATMSystem.Application.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\BankingATMSystem.Application.pdb
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Application\obj\Debug\net9.0\ref\BankingATMSystem.Application.dll

@@ -1,0 +1,11 @@
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\bin\Debug\net9.0\BankingATMSystem.Domain.deps.json
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\bin\Debug\net9.0\BankingATMSystem.Domain.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\bin\Debug\net9.0\BankingATMSystem.Domain.pdb
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\BankingATMSystem.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\BankingATMSystem.Domain.AssemblyInfoInputs.cache
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\BankingATMSystem.Domain.AssemblyInfo.cs
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\BankingATMSystem.Domain.csproj.CoreCompileInputs.cache
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\BankingATMSystem.Domain.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\refint\BankingATMSystem.Domain.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\BankingATMSystem.Domain.pdb
+D:\Git\Project\BankingATMSystem\BankingATMSystem.Domain\obj\Debug\net9.0\ref\BankingATMSystem.Domain.dll
