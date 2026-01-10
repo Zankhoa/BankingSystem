@@ -1,8 +1,9 @@
 ﻿using BankingATMSystem.Application.Common.Interfaces;
 using BankingATMSystem.Application.Features.Withdraw;
 using BankingATMSystem.Infrastructure.Persistence;
-using StackExchange.Redis;
+using BankingATMSystem.Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,11 +20,14 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
 // 2. Đăng ký Interface → Implementation (CHUẨN)
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 // 3. Đăng ký MediatR (nên trỏ tới Handler)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(WithdrawHandler).Assembly)
 );
+builder.Services.AddMediatR(cfg => 
+cfg.RegisterServicesFromAssembly(typeof(BankingATMSystem.Application.Features.Auth.LoginCommand).Assembly));
 
 //4. Dịch vụ CORS
 builder.Services.AddCors(options =>
