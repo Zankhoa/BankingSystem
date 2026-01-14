@@ -4,7 +4,7 @@ namespace BankingATMSystem.Application.Features.Withdraw
 {
     public class WithdrawCommand : IRequest<bool>
     {
-        public string AccountId {  get; set; }
+        public string UserId {  get; set; }
         public decimal Amount { get; set; }
     }
 }

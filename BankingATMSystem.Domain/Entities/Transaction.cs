@@ -7,9 +7,9 @@ namespace BankingATMSystem.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string AccountId { get; set; }
-        [ForeignKey("AccountId")]
-        public Account Account { get; set; }
+        public string UserId { get; set; }
+        [ForeignKey("UserId")]
+        public User User { get; set; }
         [Column(TypeName = "decimal(19, 4)")]
         public decimal Amount { get; set; }
         [Required]

@@ -2,6 +2,7 @@
 using BankingATMSystem.Application.Features.Withdraw;
 using BankingATMSystem.Infrastructure.Persistence;
 using BankingATMSystem.Infrastructure.Security;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System.Reflection;
@@ -22,6 +23,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddSingleton<RsaService>(); // Bắt buộc Singleton
 // 3. Đăng ký MediatR (nên trỏ tới Handler)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(WithdrawHandler).Assembly)
@@ -29,18 +31,21 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddMediatR(cfg => 
 cfg.RegisterServicesFromAssembly(typeof(BankingATMSystem.Application.Features.Auth.LoginCommand).Assembly));
 
+//add fulvalidation
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 //4. Dịch vụ CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
         builder =>
         {
-            builder.AllowAnyOrigin() // Cho phép tất cả (React chạy port nào cũng được)
+            builder.WithOrigins("http://localhost:5173") // Cho phép tất cả (React chạy port nào cũng được)
                    .AllowAnyMethod() // GET, POST, PUT...
-                   .AllowAnyHeader(); // Content-Type...
-        });
+                   .AllowAnyHeader()
+                   .AllowCredentials();
 });
-// =========================================================
+});
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -65,5 +70,4 @@ catch (ReflectionTypeLoadException ex)
     }
     throw;
 }
-
 app.Run();

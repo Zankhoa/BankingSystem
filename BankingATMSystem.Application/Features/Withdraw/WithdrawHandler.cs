@@ -21,7 +21,7 @@ namespace BankingATMSystem.Application.Features.Withdraw
         {
             // 1. Lấy database của Redis (mặc định là db 0)
             var db = _redis.GetDatabase();
-            string lockKey = $"lock_account_{request.AccountId}";
+            string lockKey = $"lock_account_{request.UserId}";
             string token = Guid.NewGuid().ToString(); // Mã định danh của request này
 
             // 2. TẠO KHÓA ATOMIC (Quan trọng nhất)
@@ -42,20 +42,19 @@ namespace BankingATMSystem.Application.Features.Withdraw
                 using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
                 try
                 {
-                    var account = await _context.Accounts
-                        .FirstOrDefaultAsync(x => x.Id == request.AccountId, cancellationToken);
+                    var user = await _context.User.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
                     // Giả lập xử lý chậm để test race condition
                     // await Task.Delay(2000); 
 
-                    if (account == null) throw new Exception("Tài khoản không tồn tại");
-                    if (account.Balance < request.Amount) throw new Exception("Số dư không đủ");
+                    if (user == null) throw new Exception("Tài khoản không tồn tại");
+                    if (user.Balance < request.Amount) throw new Exception("Số dư không đủ");
 
-                    account.Balance -= request.Amount;
+                    user.Balance -= request.Amount;
 
                     _context.Transactions.Add(new Transaction
                     {
-                        AccountId = account.Id,
+                        UserId = user.Id,
                         Amount = request.Amount,
                         TransactionType = "WITHDRAW",
                         Description = "Rút tiền (Atomic Lock)",

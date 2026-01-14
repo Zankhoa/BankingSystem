@@ -14,5 +14,47 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "Login",
+    "RelativePath": "api/Authentication/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.LoginRequestDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "GetPublicKey",
+    "RelativePath": "api/Authentication/public-key",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "Register",
+    "RelativePath": "api/Authentication/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "payload",
+        "Type": "BankingATMSystem.WebAPI.Controller.RegisterPayload",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

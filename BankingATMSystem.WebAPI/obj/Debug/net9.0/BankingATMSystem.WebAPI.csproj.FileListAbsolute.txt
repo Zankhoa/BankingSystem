@@ -76,7 +76,6 @@ D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\Banking
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.AssemblyInfoInputs.cache
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.AssemblyInfo.cs
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.csproj.CoreCompileInputs.cache
-D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.MvcApplicationPartsAssemblyInfo.cs
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.MvcApplicationPartsAssemblyInfo.cache
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\rjimswa.dswa.cache.json
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
@@ -163,3 +162,6 @@ D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\Microso
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\Microsoft.Extensions.Options.dll
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\Microsoft.Extensions.Primitives.dll
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\BCrypt.Net-Next.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll
+D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.MvcApplicationPartsAssemblyInfo.cs
+D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

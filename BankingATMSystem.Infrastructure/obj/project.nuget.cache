@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "o/wFy7Sqv1c=",
+  "dgSpecHash": "5RUCsivoCIo=",
   "success": true,
   "projectFilePath": "D:\\Git\\Project\\BankingATMSystem\\BankingATMSystem.Infrastructure\\BankingATMSystem.Infrastructure.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\fluentvalidation\\12.1.1\\fluentvalidation.12.1.1.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.1.1\\fluentvalidation.dependencyinjectionextensions.12.1.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\masstransit\\9.0.0\\masstransit.9.0.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\masstransit.abstractions\\9.0.0\\masstransit.abstractions.9.0.0.nupkg.sha512",

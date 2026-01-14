@@ -13,7 +13,7 @@ namespace BankingATMSystem.Domain.Entities
         public string? RevokedByIp { get; set; }
         public string? ReplacedByToken { get; set; } //token moi thay the token nay
         //public bool IsRevoked { get; set; } // danh dau neu token bi huy
-        public string UserId { get; set; }
+        public string UserAccountId { get; set; }
 
         public bool IsExpired => DateTime.UtcNow >= Expires;
         public bool IsRevoked => Revoked != null; // danh dau neu token bi huy

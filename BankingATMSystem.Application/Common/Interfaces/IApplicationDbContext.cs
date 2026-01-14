@@ -10,9 +10,9 @@ namespace BankingATMSystem.Application.Common.Interfaces
 {
     public interface IApplicationDbContext
     {
-        DbSet<Account> Accounts { get; }
+        DbSet<User> User { get; }
         DbSet<Transaction> Transactions { get; }
-        DbSet<UserAccount> Users { get; }
+        DbSet<UserAccount> UserAccount { get; }
         DbSet<RefreshToken> RefreshTokens { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);

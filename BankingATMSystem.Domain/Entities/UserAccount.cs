@@ -17,6 +17,10 @@ namespace BankingATMSystem.Domain.Entities
         [MaxLength(100)]
         public string Role {  get; set; }
 
+        [Required]
+        public string UserId { get; set; }
+        public User User { get; set; }
+
         //security fields - chong brute force
         public int accesssFailesCount { get; set; } //dem so lan sai
         public DateTime? LockoutEnd { get; set; } // thoi gian mo khoa
