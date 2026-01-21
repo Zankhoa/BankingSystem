@@ -45,21 +45,45 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequestDTO"
+                "$ref": "#/components/schemas/LoginPayload"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequestDTO"
+                "$ref": "#/components/schemas/LoginPayload"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginRequestDTO"
+                "$ref": "#/components/schemas/LoginPayload"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authentication/info": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Authentication/logout": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -113,14 +137,14 @@
   },
   "components": {
     "schemas": {
-      "LoginRequestDTO": {
+      "LoginPayload": {
         "type": "object",
         "properties": {
           "username": {
             "type": "string",
             "nullable": true
           },
-          "password": {
+          "encryptedPassword": {
             "type": "string",
             "nullable": true
           }

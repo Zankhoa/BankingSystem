@@ -21,7 +21,7 @@ namespace BankingATMSystem.Application.Features.Auth
         public async Task<bool> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
             //1 kiem tra xem co trung lap username va email
-            var exists = await _context.User.AnyAsync(x => x.Name == request.Username || x.Email == request.Email, cancellationToken);
+            var exists = await _context.Users.AnyAsync(x => x.Name == request.Username || x.Email == request.Email, cancellationToken);
             if (exists) throw new Exception("Tai khoan hoac email da ton tai!");
 
             //2 bat dau transaction
@@ -36,17 +36,17 @@ namespace BankingATMSystem.Application.Features.Auth
 
                 //tao so tai khoan 
                 var randomAccNum = new Random().NextInt64(1000000000, 9999999999).ToString();
-                var user = new User
+                var user = new Users
                 {
                     Id = userId,
                     Name = request.Username.ToUpper(),
                     //HashPassword(khong luu plain text)
                     Email = request.Email,
                     AccountNumber = randomAccNum,
-                    Phone = request.PhoneNumber,
+                    Phone = request.Phone,
                     Balance = 0
                 };
-                _context.User.Add(user);
+                _context.Users.Add(user);
 
                 var accountId = Convert.ToBase64String(Guid.NewGuid().ToByteArray())
                 .Replace("+", "")
@@ -59,7 +59,7 @@ namespace BankingATMSystem.Application.Features.Auth
                     {
                         Id = accountId,
                         Username = request.Username.ToUpper(),
-                        PassordHash = BCrypt.Net.BCrypt.HashPassword(request.Password),
+                        PassordHash = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password),
                         Role = "User",
                         UserId = userId,
                         IsActive = false,

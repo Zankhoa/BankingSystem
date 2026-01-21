@@ -164,4 +164,3 @@ D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\Microso
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\BCrypt.Net-Next.dll
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\bin\Debug\net9.0\FluentValidation.DependencyInjectionExtensions.dll
 D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\BankingATMSystem.WebAPI.MvcApplicationPartsAssemblyInfo.cs
-D:\Git\Project\BankingATMSystem\BankingATMSystem.WebAPI\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

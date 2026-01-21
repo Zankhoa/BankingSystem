@@ -2,8 +2,11 @@
 using BankingATMSystem.Infrastructure.Security;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 
 namespace BankingATMSystem.WebAPI.Controller
@@ -20,13 +23,16 @@ namespace BankingATMSystem.WebAPI.Controller
             _mediator = mediator;
             _rsaService = rsaService;
         }
+
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
+        [AllowAnonymous]
+        public async Task<IActionResult> Login([FromBody] LoginPayload payload)
         {
             var ipAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString() ?? "Unknown";
             try
             {
-                var command = new LoginCommand(request.Username, request.Password, ipAddress);
+                string realPassword = _rsaService.Decrypt(payload.EncryptedPassword);
+                var command = new LoginCommand(payload.username, realPassword, ipAddress);
                 var result = await _mediator.Send(command);
 
                 //bao mat set cookie httonly
@@ -34,17 +40,50 @@ namespace BankingATMSystem.WebAPI.Controller
                 {
                     HttpOnly = true,
                     Secure = true, //set false neu chay localhost khong co https
-                    SameSite = SameSiteMode.Strict,
-                    Expires = result.RefreshTokenExpiration
+                    SameSite = SameSiteMode.None,
+                    Expires = result.RefreshTokenExpiration,
+                    IsEssential = true
                 };
-                Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
-                return Ok(new { AccessToken = result.accessToken });
+                Response.Cookies.Append("accessToken", result.accessToken, cookieOptions);
+                return Ok(new { message = "Login thành công" });
             }
             catch(Exception ex)
             {
                 return Unauthorized(new { message = ex.Message });
             }
         }
+
+        [Authorize]
+        [HttpGet("info")]
+        public async Task<IActionResult> GetUserInfo()
+        {
+            try
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userId)) return Unauthorized();
+                var command = new GetUserInforCommand(userId);
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message }); 
+            }
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            //xoa cookie
+            Response.Cookies.Delete("accessToken", new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.None
+            });
+            return Ok(new { message = "logut successfull" });
+        }
+
         [HttpGet("public-key")]
         public IActionResult GetPublicKey() => Ok(new { publicKey = _rsaService.GetPublicKey() });
 
@@ -61,7 +100,7 @@ namespace BankingATMSystem.WebAPI.Controller
                     Username = payload.Username,
                     Password = realPassword, // Đưa pass thật vào xử lý
                     Email = payload.Email,
-                    PhoneNumber = payload.Phone,
+                    Phone = payload.Phone,
                 };
 
                 var result = await _mediator.Send(command);
@@ -85,5 +124,10 @@ namespace BankingATMSystem.WebAPI.Controller
         public string Phone { get; set; }
         public string Email { get; set; }
     }
-    public record LoginRequestDTO(string Username, string Password);
+    public record LoginPayload
+    {
+        public string username { get; set; }
+        public string EncryptedPassword { get; set; }
+    }
+
 }

@@ -32,25 +32,33 @@ namespace BankingATMSystem.Infrastructure.Security
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: _configuration["JwtSetting:Issuer"],
-                audience: _configuration["JwtSettings: Audience"],
+                audience: _configuration["JwtSetting:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(15), // access token chi song 15p
                 signingCredentials: creds 
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public RefreshToken GenerateRefreshToken(string ipAddress)
+        public RefreshToken GenerateRefreshToken(string ipAddress, string userAccountId)
         {
             //su dung rng de tao chuoi ngau nhien an tan tuyet doi
             var randomNumber = new byte[32];
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
 
+            var id = Convert.ToBase64String(Guid.NewGuid().ToByteArray())
+               .Replace("+", "")
+               .Replace("/", "")
+               .Replace("=", "");
+
             return new RefreshToken
             {
+                Id = id,
                 Token = Convert.ToBase64String(randomNumber),
                 Expires = DateTime.UtcNow.AddDays(7),//token song trong 7 ngay
                 CreatedByIp = ipAddress,
+                CreatedAt = DateTime.UtcNow,
+                UserAccountId = userAccountId,
             };
         }
 

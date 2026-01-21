@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BankingATMSystem.Domain.Entities
 {
-    public class User
+    public class Users
     {
         [Key]
         public string Id { get; set;}
@@ -19,6 +19,7 @@ namespace BankingATMSystem.Domain.Entities
         public string Name { get; set;}
         public string Phone { get; set;}
         public string Email { get; set;}
+        public string? Pin { get; set;}
         public UserAccount UserAccount { get; set; }
 
         [Timestamp] // Dung cho optimistic concurrency (chong ghi de)

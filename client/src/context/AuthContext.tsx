@@ -1,73 +1,66 @@
-import { createContext, useState, useEffect, useContext} from "react";
-import type { AuthContextType, AccountInfo } from "../types";
+import { createContext, useState, useEffect, useContext } from "react";
+import type { AuthContextType, UserInfoDTO } from "../types";
 import { authService } from "../services/authService";
-
+import type { APIResponse } from '../types';
+import { AxiosError } from 'axios'; // Import cái này
 const AuthContext = createContext<AuthContextType | null>(null);
-export const AuthProvider = ({ children } : { children: React.ReactNode }) => {
-    const [user, setUser] = useState<AccountInfo | null>(null);
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+    const [user, setUser] = useState<UserInfoDTO | null>(null);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(true); //mac dinh la dang loading
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    //logic chay khi f5 trang web
+    // F5: Gọi API check xem Cookie còn sống không
     useEffect(() => {
-    const initialzeAuth = async () => {
-        const token = localStorage.getItem("accessToken");
-
-        //1 neu khong co token => dung loading, xac nhan chua login
-        if(!token){
-            setIsLoading(false);
-            setIsAuthenticated(false);
-            setUser(null);
-            return;
-        }
-
-        //2 neu co token => goi api kiem tra tinh hop le
-        try{
-            const userData = await authService.getCurrentUser();
-            //neu api ok (200) token hop le
-            setUser(userData);
-            setIsAuthenticated(true);
-        }catch(error){
-            //neu api loi (401) token ko hop le
-            console.error("Error during authentication initialization:", error);
-            localStorage.clear(); // Xóa sạch dấu vết
-            setUser(null);
-            setIsAuthenticated(false);
-        }finally{
-        //du dung hay sai qua trinh kiem tra da xong 
-        setIsLoading(false);
-        }
-    };
-    initialzeAuth();
-
+        const initAuth = async () => {
+            try {
+                const userInfo = await authService.getCurrentUser();
+                console.log("Current User:", userInfo);
+                setUser(userInfo);
+                setIsAuthenticated(true);
+            } catch {
+                setUser(null);
+                setIsAuthenticated(false);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        initAuth();
     }, []);
 
-    //ham login(khi bam nut thanh cong)}
-    const login = (token: string, accountId: string) => {
-    localStorage.setItem("accessToken", token);
-    localStorage.setItem("accountId", accountId);
-    setIsAuthenticated(true);
-    //co the goi goi getcurrentuser de lay thong tin user
+    // Hàm gọi sau khi bấm nút Login thành công
+    const loginContext = async () => {
+        setIsLoading(true);
+        try {
+            const userInfo = await authService.getCurrentUser();
+            setUser(userInfo);
+            setIsAuthenticated(true);
+        } catch(error) {  const axiosError = error as AxiosError<APIResponse>;
+              console.error("Login error:", axiosError); } 
+        finally { setIsLoading(false); }
     };
 
-    //ham logout
-    const logout = () => {
-        localStorage.clear();
-        setIsAuthenticated(false);
+    const logoutContext = async () => {
+        try 
+        {
+             await authService.logout(); 
+        } catch(error) 
+        {
+            console.error(error);
+        }
         setUser(null);
+        setIsAuthenticated(false);
     };
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, isLoading, loginContext, logoutContext }}>
             {children}
         </AuthContext.Provider>
     );
-    };
-
-    //hook de dung nhanh o cac componet khac
-    // eslint-disable-next-line react-refresh/only-export-components
-    export const useAuth = () =>{
+};
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuth = () => {
     const context = useContext(AuthContext);
-    if(!context) throw new Error("useAuth must be used within an AuthProvider");
+    if (!context) throw new Error("useAuth must be used within an AuthProvider");
     return context;
-    };
-
+};

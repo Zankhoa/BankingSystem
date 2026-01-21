@@ -30,7 +30,7 @@ const RegisterPage = ()=> {
             // buoc 1 lay public key tu server
             const keyData  = await registerService.getPublicKey();
 
-            //buoc 2 ma hoa ps tai client
+            //buoc 2 ma hoa ps tai client0
             const encryptor = new JSEncrypt();
             encryptor.setPublicKey(keyData.publicKey);
             const encryptedPassword = encryptor.encrypt(password);
@@ -45,9 +45,7 @@ const RegisterPage = ()=> {
                 encryptedPassword: encryptedPassword,
                 phone: phone
             });
-
             toast.success(result.message);
-            
             setTimeout(() => navigate('/login'),2000);
         } catch (error) {
               const axiosError = error as AxiosError<APIResponse>;

@@ -13,17 +13,17 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     // Các DbSet đã khớp với Interface rồi nên không cần sửa gì thêm
-    public DbSet<User> User { get; set; }
-    public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<Users> Users { get; set; }
+    public DbSet<Transactions> TransactionsHistory { get; set; }
     public DbSet<UserAccount> UserAccount { get; set; }
-    public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<RefreshToken> RefreshToken { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         // --- Cấu hình Index (Để tìm kiếm nhanh) ---
-        modelBuilder.Entity<User>()
+        modelBuilder.Entity<Users>()
             .HasIndex(a => a.AccountNumber)
             .IsUnique(); // Đảm bảo số tài khoản không trùng nhau
         modelBuilder.Entity<RefreshToken>()
@@ -31,7 +31,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .IsUnique(); // Đảm bảo số tài khoản không trùng nhau
 
         //moi quan he 1 1 voi user va user Token
-        modelBuilder.Entity<User>().HasOne(u => u.UserAccount)
+        modelBuilder.Entity<Users>().HasOne(u => u.UserAccount)
             .WithOne(p => p.User)
             .HasForeignKey<UserAccount>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);

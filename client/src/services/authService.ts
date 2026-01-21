@@ -1,25 +1,31 @@
 import axiosClient from "../api/axiosClient";
-import type {AccountInfo, LoginRespose} from "../types";
+import type { LoginRequest, UserInfoDTO, PublicKeyResponse, LoginRespose} from "../types";
 
 export const authService = {
-login: async (username: string, password: string) => {
-    //ma hoa base64 usernam:password
-    const encoded = btoa(`${username}:${password}`);
-
-    //gui qua header, body de trong
-    const response = await axiosClient.post<LoginRespose>('/Authentication/login', {}, {
-        headers: {
-            'Authorization': `Basic ${encoded}`
-        }
-    });
+//lay khoa rsa 
+    getPublicKey: async () => {
+    const response = await axiosClient.get<PublicKeyResponse>('/Authentication/public-key');
     return response.data;
 },
 
-//2 kiem tra token 
-getCurrentUser: async () => {
-    // axios client da tu dong gan token vao header
-    const response = await axiosClient.get<AccountInfo>('/Authentication/info');
-    return response.data;
-}
+// 2. Login (Chỉ gửi Username và Password đã mã hóa RSA)
+    login: async (data: LoginRequest) => {
+        // Backend: [HttpPost("login")] -> /api/auth/login
+        // Không gửi Header Authorization Basic nữa!
+        // Cookie sẽ tự động được Server set (HttpOnly), ta không cần quan tâm token ở đây
+        const response = await axiosClient.post<LoginRespose>('/Authentication/login', data);
+        return response.data;
+    },
+
+// Logout
+    logout: async () => {
+        await axiosClient.post('/auth/logout');
+    },
+
+// Lấy thông tin user (Browser tự gửi cookie đi kèm request này)
+    getCurrentUser: async () => {
+        const response = await axiosClient.get<UserInfoDTO>('/Authentication/info');
+        return response.data;
+    }
 };
 

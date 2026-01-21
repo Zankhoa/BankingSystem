@@ -27,7 +27,7 @@ namespace BankingATMSystem.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("Created")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedByIp")
@@ -35,15 +35,6 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("ReplacedByToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Revoked")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RevokedByIp")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -60,16 +51,13 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserAccountId");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshToken");
                 });
 
-            modelBuilder.Entity("BankingATMSystem.Domain.Entities.Transaction", b =>
+            modelBuilder.Entity("BankingATMSystem.Domain.Entities.Transactions", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(19, 4)");
@@ -80,6 +68,10 @@ namespace BankingATMSystem.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ReceiverUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TransactionType")
                         .IsRequired()
@@ -94,46 +86,7 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("BankingATMSystem.Domain.Entities.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AccountNumber")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(19, 4)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountNumber")
-                        .IsUnique();
-
-                    b.ToTable("User");
+                    b.ToTable("TransactionsHistory");
                 });
 
             modelBuilder.Entity("BankingATMSystem.Domain.Entities.UserAccount", b =>
@@ -176,6 +129,45 @@ namespace BankingATMSystem.Infrastructure.Migrations
                     b.ToTable("UserAccount");
                 });
 
+            modelBuilder.Entity("BankingATMSystem.Domain.Entities.Users", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(19, 4)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AccountNumber")
+                        .IsUnique();
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("BankingATMSystem.Domain.Entities.RefreshToken", b =>
                 {
                     b.HasOne("BankingATMSystem.Domain.Entities.UserAccount", null)
@@ -185,9 +177,9 @@ namespace BankingATMSystem.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BankingATMSystem.Domain.Entities.Transaction", b =>
+            modelBuilder.Entity("BankingATMSystem.Domain.Entities.Transactions", b =>
                 {
-                    b.HasOne("BankingATMSystem.Domain.Entities.User", "User")
+                    b.HasOne("BankingATMSystem.Domain.Entities.Users", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -198,7 +190,7 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("BankingATMSystem.Domain.Entities.UserAccount", b =>
                 {
-                    b.HasOne("BankingATMSystem.Domain.Entities.User", "User")
+                    b.HasOne("BankingATMSystem.Domain.Entities.Users", "User")
                         .WithOne("UserAccount")
                         .HasForeignKey("BankingATMSystem.Domain.Entities.UserAccount", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -207,15 +199,15 @@ namespace BankingATMSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BankingATMSystem.Domain.Entities.User", b =>
-                {
-                    b.Navigation("UserAccount")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BankingATMSystem.Domain.Entities.UserAccount", b =>
                 {
                     b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("BankingATMSystem.Domain.Entities.Users", b =>
+                {
+                    b.Navigation("UserAccount")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -10,23 +10,20 @@ export interface APIResponse{
     error: string;
 }
 
-export interface LoginRespose{
-    token: string;
-    usename: string;
-    accountId: string; //backend nen tra ve cai nay de frontend luu lai
+export interface LoginRequest{
+    Username: string;
+    EncryptedPassword: string;
 }
-export interface AccountInfo{
-username: string;
-role: string;
-//them mot vai thongt in khac neu can thiet
+export interface LoginRespose{
+message: string;
 }
 
 export interface AuthContextType{
-    user: AccountInfo | null;
+    user: UserInfoDTO | null;
     isAuthenticated: boolean;
     isLoading: boolean; //bien nay quan trong de the hien tren man hinh hco
-    login: (token: string, accountId: string) => void;
-    logout: () => void;
+    loginContext: () => void;
+    logoutContext: () => void;
 }
 
 export interface RegisterRequest{
@@ -35,10 +32,20 @@ encryptedPassword: string;
 email: string;
 phone: string;
 }
+
 export interface RegisterResponse {
     message: string; // Backend trả về: "Đăng ký thành công..."
+}
+
+export interface PublicKeyResponse {
+    publicKey: string;
 }
 export interface PublicKeyResponse {
     publicKey: string;
 }
+
+export interface UserInfoDTO{
+Username: string;
+}
+
 

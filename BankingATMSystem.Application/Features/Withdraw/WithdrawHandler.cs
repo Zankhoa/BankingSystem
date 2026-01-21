@@ -42,7 +42,7 @@ namespace BankingATMSystem.Application.Features.Withdraw
                 using var transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
                 try
                 {
-                    var user = await _context.User.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+                    var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
 
                     // Giả lập xử lý chậm để test race condition
                     // await Task.Delay(2000); 
@@ -52,7 +52,7 @@ namespace BankingATMSystem.Application.Features.Withdraw
 
                     user.Balance -= request.Amount;
 
-                    _context.Transactions.Add(new Transaction
+                    _context.TransactionsHistory.Add(new Transactions
                     {
                         UserId = user.Id,
                         Amount = request.Amount,

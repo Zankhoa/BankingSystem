@@ -1,10 +1,11 @@
 ﻿
+using BankingATMSystem.Application.Common.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace BankingATMSystem.Infrastructure.Security
 {
-    public class RsaService
+    public class RsaService 
     {
         private readonly RSA _rsa;
         public RsaService()

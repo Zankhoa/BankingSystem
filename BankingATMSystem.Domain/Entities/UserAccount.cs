@@ -19,7 +19,7 @@ namespace BankingATMSystem.Domain.Entities
 
         [Required]
         public string UserId { get; set; }
-        public User User { get; set; }
+        public Users User { get; set; }
 
         //security fields - chong brute force
         public int accesssFailesCount { get; set; } //dem so lan sai

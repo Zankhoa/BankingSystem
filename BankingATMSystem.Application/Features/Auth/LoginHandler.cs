@@ -10,12 +10,14 @@ namespace BankingATMSystem.Application.Features.Auth
         private readonly IApplicationDbContext _context;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        //private readonly IRsaService _rsaService;
 
         public LoginHandler(IApplicationDbContext context, IPasswordHasher passwordHasher, IJwtTokenGenerator jwtTokenGenerator)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _jwtTokenGenerator = jwtTokenGenerator;
+            //_rsaService = rsaService;
         }
 
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -31,10 +33,12 @@ namespace BankingATMSystem.Application.Features.Auth
                 throw new Exception("tai khoan da bi khoa vui long lien he voi ngan hang de mo lai!");
             }
             //3 verify password
-            if(!_passwordHasher.Verify(request.Password, userAccount.PassordHash))
+            //var hashPassword = _passwordHasher.Hash(request.Password);
+
+            if (!_passwordHasher.Verify(request.Password, userAccount.PassordHash))
             {
                 userAccount.accesssFailesCount++;
-                if(userAccount.accesssFailesCount >= 5)
+                if (userAccount.accesssFailesCount >= 5)
                 {
                     userAccount.LockoutEnd = DateTime.UtcNow.AddHours(3);
                     userAccount.accesssFailesCount = 0;
@@ -48,7 +52,7 @@ namespace BankingATMSystem.Application.Features.Auth
             
             //5 tao token
             var accessToken = _jwtTokenGenerator.GenerateAccessToken(userAccount);
-            var refreshToken = _jwtTokenGenerator.GenerateRefreshToken(request.IdAddress);
+            var refreshToken = _jwtTokenGenerator.GenerateRefreshToken(request.IdAddress, userAccount.Id);
 
             //6 xoay vog Token(revoke cac token cu cua ip nay hoac giu lai tuy policy)
             //o day minh cai moi vao

@@ -17,6 +17,16 @@
   },
   {
     "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "GetUserInfo",
+    "RelativePath": "api/Authentication/info",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
     "Method": "Login",
     "RelativePath": "api/Authentication/login",
     "HttpMethod": "POST",
@@ -24,11 +34,21 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "request",
-        "Type": "BankingATMSystem.WebAPI.Controller.LoginRequestDTO",
+        "Name": "payload",
+        "Type": "BankingATMSystem.WebAPI.Controller.LoginPayload",
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "Logout",
+    "RelativePath": "api/Authentication/logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

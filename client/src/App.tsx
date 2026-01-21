@@ -18,7 +18,7 @@ function App() {
             {/* --- KHU VỰC BẢO VỆ (Private Routes) --- */}
             {/* Mọi route nằm trong này đều được check Token kỹ càng */}
             <Route element={<ProtectedRoute />}>
-                <Route path="/atm" element={<ATMPage />} />
+                <Route path="/withdraw" element={<ATMPage />} />
                 {/* Thêm các trang khác sau này: /profile, /transactions... */}
           {/* Route 404 */}
             <Route path="*" element={<Navigate to="/login" replace />} />
