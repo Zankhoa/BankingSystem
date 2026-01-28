@@ -2,6 +2,9 @@
 using BankingATMSystem.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
+using StackExchange.Redis;
+using System.Security.Cryptography;
 
 namespace BankingATMSystem.Application.Features.Auth
 {
@@ -10,14 +13,14 @@ namespace BankingATMSystem.Application.Features.Auth
         private readonly IApplicationDbContext _context;
         private readonly IPasswordHasher _passwordHasher;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        //private readonly IRsaService _rsaService;
+        private readonly IConnectionMultiplexer _redis;
 
-        public LoginHandler(IApplicationDbContext context, IPasswordHasher passwordHasher, IJwtTokenGenerator jwtTokenGenerator)
+        public LoginHandler(IApplicationDbContext context, IPasswordHasher passwordHasher, IJwtTokenGenerator jwtTokenGenerator, IConnectionMultiplexer redis)
         {
             _context = context;
             _passwordHasher = passwordHasher;
             _jwtTokenGenerator = jwtTokenGenerator;
-            //_rsaService = rsaService;
+            _redis = redis;
         }
 
         public async Task<LoginResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -54,12 +57,20 @@ namespace BankingATMSystem.Application.Features.Auth
             var accessToken = _jwtTokenGenerator.GenerateAccessToken(userAccount);
             var refreshToken = _jwtTokenGenerator.GenerateRefreshToken(request.IdAddress, userAccount.Id);
 
-            //6 xoay vog Token(revoke cac token cu cua ip nay hoac giu lai tuy policy)
-            //o day minh cai moi vao
-            userAccount.RefreshTokens.Add(refreshToken);
+            //tao session secret key cho signature
+            //key nay se duoc luu vao redis, front end ung no de ky cac request tiep theo
+            var sessionSecret = Convert.ToBase64String(Guid.NewGuid().ToByteArray());
+            var redisKey = $"secret:{userAccount.Id}";
+            var db = _redis.GetDatabase();
+            await db.StringSetAsync(redisKey, sessionSecret, TimeSpan.FromMinutes(15));
+            
+
+            ////6 xoay vog Token(revoke cac token cu cua ip nay hoac giu lai tuy policy)
+            ////o day minh cai moi vao
+            //userAccount.RefreshTokens.Add(refreshToken);
 
             await _context.SaveChangesAsync(cancellationToken);
-            return new LoginResponse(accessToken, refreshToken.Token, refreshToken.Expires);
-        }
+            return new LoginResponse(accessToken, refreshToken.Token, refreshToken.Expires, sessionSecret);
+        }   
     }
 }

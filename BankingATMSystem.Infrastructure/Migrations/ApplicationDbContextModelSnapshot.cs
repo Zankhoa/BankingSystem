@@ -73,6 +73,9 @@ namespace BankingATMSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RequestIs")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("TransactionType")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -152,6 +155,9 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
                     b.Property<string>("Phone")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PinHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("RowVersion")

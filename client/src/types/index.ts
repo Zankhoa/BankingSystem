@@ -16,11 +16,13 @@ export interface LoginRequest{
 }
 export interface LoginRespose{
 message: string;
+sessionSecret: string;
 }
 
 export interface AuthContextType{
     user: UserInfoDTO | null;
     isAuthenticated: boolean;
+    name: string;
     isLoading: boolean; //bien nay quan trong de the hien tren man hinh hco
     loginContext: () => void;
     logoutContext: () => void;
@@ -45,7 +47,25 @@ export interface PublicKeyResponse {
 }
 
 export interface UserInfoDTO{
-Username: string;
+userName: string;
+balance: number;
 }
 
+export interface TransferRequest{
+    requestId: string;
+    AmountMoney: number;
+    Types: string;
+    Description: string;
+    ReceiverAccountNumber: string;
+    Pin: string;
+}
+export interface TransferResponse{
+message: string;
+}
+export interface GetInfoRequest{
+accountNumber: string,
+}
+export interface GetInfoResponse{
+userName: string,
+}
 

@@ -1,8 +1,13 @@
-﻿using BankingATMSystem.Application.Features.Transfer;
+﻿using BankingATMSystem.Application.Features.Auth;
+using BankingATMSystem.Application.Features.Transfer;
+using BankingATMSystem.Application.Features.UserInfo;
+using BankingATMSystem.Infrastructure.Security;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BankingATMSystem.WebAPI.Controller
 {
@@ -12,9 +17,11 @@ namespace BankingATMSystem.WebAPI.Controller
     public class TransactionController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public TransactionController(IMediator mediator)
+        private readonly RsaService _rsaService;
+        public TransactionController(IMediator mediator, RsaService rsaService)
         {
             _mediator = mediator;
+            _rsaService = rsaService;
         }
         [HttpPost("transfer")]
        public async Task<IActionResult> Transfer([FromBody] TransferCommand command)
@@ -33,5 +40,29 @@ namespace BankingATMSystem.WebAPI.Controller
                 return BadRequest(new { message = ex.Message });
             }
         }
+        [HttpPost("getInfo")]
+        public async Task<IActionResult> getInfor([FromBody] GetInfoResponse acc)
+        {
+            try
+            {
+                var command = new GetUserCommand(acc.accountNumber);
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message =ex.Message });
+            }
+        }
+
+        [HttpPost("getPublicKey")]
+        public async Task<IActionResult> getPublicKey()
+        {
+            return Ok(new { publicKey = _rsaService.GetPublicKey() });
+        }
+    }
+    public class GetInfoResponse
+    {
+        public string accountNumber { get; set; }
     }
 }

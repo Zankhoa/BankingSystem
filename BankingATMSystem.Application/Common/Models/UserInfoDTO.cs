@@ -9,6 +9,7 @@ namespace BankingATMSystem.Application.Common.Models
     public class UserInfoDTO
     {
         public string UserName { get; set; }
+        public decimal Balance { get; set; }
 
     }
 }

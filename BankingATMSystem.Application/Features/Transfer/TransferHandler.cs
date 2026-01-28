@@ -9,9 +9,11 @@ namespace BankingATMSystem.Application.Features.Transfer
     public class TransferHandler : IRequestHandler<TransferCommand, string>
     {
         private readonly IApplicationDbContext _context;
-        public TransferHandler(IApplicationDbContext context)
+        private readonly IPinHash _pinHash;
+        public TransferHandler(IApplicationDbContext context, IPinHash pinHash)
         {
             _context = context;
+            _pinHash = pinHash;
         }
         public async Task<string> Handle(TransferCommand request, CancellationToken cancellationToken)
         {
@@ -32,8 +34,10 @@ namespace BankingATMSystem.Application.Features.Transfer
                 //4 lay thong tin nguoi nhan
                 var receiverAccount = await _context.Users.FirstOrDefaultAsync(u => u.AccountNumber == request.ReceiverAccountNumber, cancellationToken);
                 if (receiverAccount == null) throw new Exception("so tai khoan hien khong ton tai");
-                if (senderAccount == receiverAccount) throw new Exception("khong the tu chuyen cho chinh minh");
-
+                //if (senderAccount == receiverAccount) throw new Exception("khong the tu chuyen cho chinh minh");
+                if (!_pinHash.VerifyPinAsync(request.Pin, senderAccount.PinHash)){
+                    throw new Exception("Ma pin sai");
+                }
                 //thuc hien giao dich
                 senderAccount.Balance -= request.AmountMoney;
                 receiverAccount.Balance += request.AmountMoney;
@@ -51,6 +55,7 @@ namespace BankingATMSystem.Application.Features.Transfer
                 {
                     Id = id,
                     UserId = senderAccount.Id,
+                    RequestIs = request.requestId,
                     Amount = request.AmountMoney,
                     TransactionType = request.Types,
                     ReceiverUserId = receiverAccount.Id,

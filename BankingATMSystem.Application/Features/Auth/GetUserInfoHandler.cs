@@ -15,15 +15,18 @@ namespace BankingATMSystem.Application.Features.Auth
         public async Task<UserInfoDTO> Handle(GetUserInforCommand request, CancellationToken cancellationToken)
         {
             //tim user 
-            var user = await _context.UserAccount.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
-            if (user == null)
+            var userAccount = await _context.UserAccount.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
+            if (userAccount == null)
             {
                 throw new Exception("Không tìm thấy người dùng");
             }
+            var users = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == userAccount.UserId, cancellationToken);
+            if (users == null) throw new Exception("khong tim thay nguoi dung");
             //dong goi ket qua tra ve
             return new UserInfoDTO
             {
-                UserName = user.Username
+                UserName = users.Name,
+                Balance = users.Balance
             };
         }
     }

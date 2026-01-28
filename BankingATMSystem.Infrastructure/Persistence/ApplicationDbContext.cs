@@ -29,7 +29,10 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.Entity<RefreshToken>()
             .HasIndex(a => a.Token)
             .IsUnique(); // Đảm bảo số tài khoản không trùng nhau
-
+                         // Cấu hình RowVersion cho User
+        modelBuilder.Entity<Users>()
+            .Property(u => u.RowVersion)
+            .IsRowVersion(); // Đánh dấu đây là cột concurrency token
         //moi quan he 1 1 voi user va user Token
         modelBuilder.Entity<Users>().HasOne(u => u.UserAccount)
             .WithOne(p => p.User)

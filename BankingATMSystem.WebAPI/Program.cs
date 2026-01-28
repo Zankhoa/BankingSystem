@@ -1,8 +1,13 @@
 ﻿using BankingATMSystem.Application.Common.Interfaces;
+using BankingATMSystem.Application.Common.Middleware;
+using BankingATMSystem.Application.Common.Service;
 using BankingATMSystem.Application.Features.Withdraw;
 using BankingATMSystem.Infrastructure.Persistence;
 using BankingATMSystem.Infrastructure.Security;
+using BankingATMSystem.Infrastructure.Service;
+using BankingATMSystem.WebAPI.Middlewares;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -23,13 +28,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     ));
 // Đăng ký Redis Cache
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
-    ConnectionMultiplexer.Connect("localhost:6379"));
+    ConnectionMultiplexer.Connect("localhost:6379, abortConnect = false"));
 
 // 2. Đăng ký Interface → Implementation (CHUẨN)
 builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+builder.Services.AddScoped<IPinHash, PinHash>();
+builder.Services.AddScoped<IIdempotencyService, IdempotencyService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddSingleton<RsaService>(); // Bắt buộc Singleton
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(IdempotencyBehavior<,>));
 // 3. Đăng ký MediatR (nên trỏ tới Handler)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(WithdrawHandler).Assembly)
@@ -98,7 +106,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             },
             OnAuthenticationFailed = context =>
             {
-                // 🔴 ĐẶT BREAKPOINT (F9) TẠI DÒNG DƯỚI 👇
+                // ĐẶT BREAKPOINT (F9) TẠI DÒNG DƯỚI 
                 var error = context.Exception.Message;
                 Console.WriteLine("--> LỖI AUTH: " + error);
                 return Task.CompletedTask;
@@ -118,6 +126,9 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<SignatureValid>();
+
 try
 {
     app.MapControllers();

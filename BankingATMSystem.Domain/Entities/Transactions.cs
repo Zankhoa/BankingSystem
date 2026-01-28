@@ -15,6 +15,7 @@ namespace BankingATMSystem.Domain.Entities
         [MaxLength(20)]
         public string TransactionType { get; set; }
         public string ReceiverUserId { get; set; }
+        public string? RequestIs { get; set; }
         public DateTime CreateAt { get; set; }
         [MaxLength(100)]
         public string? Description { get; set; }

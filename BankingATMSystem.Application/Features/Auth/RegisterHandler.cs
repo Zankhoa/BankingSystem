@@ -43,6 +43,7 @@ namespace BankingATMSystem.Application.Features.Auth
                     //HashPassword(khong luu plain text)
                     Email = request.Email,
                     AccountNumber = randomAccNum,
+                    PinHash = "",
                     Phone = request.Phone,
                     Balance = 0
                 };

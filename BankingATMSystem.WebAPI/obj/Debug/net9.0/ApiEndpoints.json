@@ -63,6 +63,22 @@
   },
   {
     "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "RefreshToken",
+    "RelativePath": "api/Authentication/refreshToken",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.RefreshTokenRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
     "Method": "Register",
     "RelativePath": "api/Authentication/register",
     "HttpMethod": "POST",
@@ -72,6 +88,48 @@
       {
         "Name": "payload",
         "Type": "BankingATMSystem.WebAPI.Controller.RegisterPayload",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
+    "Method": "getInfor",
+    "RelativePath": "api/Transaction/getInfo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "acc",
+        "Type": "BankingATMSystem.WebAPI.Controller.GetInfoResponse",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
+    "Method": "getPublicKey",
+    "RelativePath": "api/Transaction/getPublicKey",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
+    "Method": "Transfer",
+    "RelativePath": "api/Transaction/transfer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "command",
+        "Type": "BankingATMSystem.Application.Features.Transfer.TransferCommand",
         "IsRequired": true
       }
     ],

@@ -21,10 +21,12 @@ namespace BankingATMSystem.Infrastructure.Security
         }
         public string GenerateAccessToken(UserAccount user)
         {
+            var jti = Guid.NewGuid().ToString();
             var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Name, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, jti),
                 new Claim(ClaimTypes.Role, user.Role)
             };
 
@@ -59,6 +61,9 @@ namespace BankingATMSystem.Infrastructure.Security
                 CreatedByIp = ipAddress,
                 CreatedAt = DateTime.UtcNow,
                 UserAccountId = userAccountId,
+                isRevoked = false,
+                IsUsed = false,
+                JwtId = Guid.NewGuid().ToString(),
             };
         }
 

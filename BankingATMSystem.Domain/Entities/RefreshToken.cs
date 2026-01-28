@@ -10,8 +10,8 @@ namespace BankingATMSystem.Domain.Entities
         public DateTime CreatedAt { get; set; }
         public string? CreatedByIp { get; set; }
         public string UserAccountId { get; set; }
-
-
-
+        public bool IsUsed { get; set; }
+        public string JwtId { get; set; }
+        public bool isRevoked { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace BankingATMSystem.Domain.Entities
         public string Name { get; set;}
         public string Phone { get; set;}
         public string Email { get; set;}
-        public string? Pin { get; set;}
+        public string? PinHash { get; set;}
         public UserAccount UserAccount { get; set; }
 
         [Timestamp] // Dung cho optimistic concurrency (chong ghi de)

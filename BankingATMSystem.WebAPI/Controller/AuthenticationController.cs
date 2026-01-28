@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.WebSockets;
 using System.Security.Claims;
 
 
@@ -45,7 +47,8 @@ namespace BankingATMSystem.WebAPI.Controller
                     IsEssential = true
                 };
                 Response.Cookies.Append("accessToken", result.accessToken, cookieOptions);
-                return Ok(new { message = "Login thành công" });
+                Response.Cookies.Append("refreshToken", result.RefreshToken, cookieOptions);
+                return Ok(new { message = "Login thành công", sessionSecret = result.SignatureSecret});
             }
             catch(Exception ex)
             {
@@ -68,6 +71,49 @@ namespace BankingATMSystem.WebAPI.Controller
             catch(Exception ex)
             {
                 return Unauthorized(new { message = ex.Message }); 
+            }
+        }
+
+        [HttpPost("refreshToken")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+        {
+            try
+            {
+                var refreshToken = Request.Cookies["refreshToken"];
+                if (string.IsNullOrEmpty(refreshToken)) return Unauthorized();
+                var ipAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString() ?? "Unknown";
+                var command = new RefreshTokenCommand(request.refreshToken, ipAddress);
+                var result = await _mediator.Send(command);
+                if (result == null)
+                {
+                    // Nếu lỗi (hack, hết hạn...) -> Xóa Cookie để bắt login lại
+                    Response.Cookies.Delete("accessToken");
+                    Response.Cookies.Delete("refreshToken");
+                    return Unauthorized();
+                }
+                var cookieAccess = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict, 
+                    Expires = result.NewAccessTokenExpiry,
+                    IsEssential = true
+                };
+                var cookieRefresh = new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.Strict,
+                    Expires = result.NewRefreshTokenExpiry,
+                    IsEssential = true
+                };
+                Response.Cookies.Append("accessToken", result.NewAccessToken, cookieAccess);
+                Response.Cookies.Append("refreshToken", result.NewRefreshToken, cookieRefresh);
+                return Ok(new {message = "refreshThanh cong"});
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message});
             }
         }
 
@@ -128,6 +174,10 @@ namespace BankingATMSystem.WebAPI.Controller
     {
         public string username { get; set; }
         public string EncryptedPassword { get; set; }
+    }
+     public class RefreshTokenRequest
+    {
+        public string refreshToken { get; set; }
     }
 
 }

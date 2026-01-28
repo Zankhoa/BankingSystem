@@ -15,7 +15,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   //neu da login thi chuyen ve trang chu
   if (isAuthenticated) {
-    return <Navigate to="/withdraw" />;
+    return <Navigate to="/transfer/internal" />;
   }
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -35,10 +35,15 @@ const LoginPage = () => {
         return;
       }
       //b3 goi login api(Server set cooki)
-       await authService.login({
+       const res = await authService.login({
         Username: username,
         EncryptedPassword: encryptedPassword,
       });
+
+      if(res.sessionSecret != null){
+        sessionStorage.setItem('signature', res.sessionSecret);
+      }
+      console.log("kakaka", res.sessionSecret);
       await loginContext();
       //2 cap nhan context se dc tu luu vao storegarge
       // login(data.token, data.accountId);
