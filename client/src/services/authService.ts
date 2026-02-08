@@ -1,5 +1,5 @@
 import axiosClient from "../api/axiosClient";
-import type { LoginRequest, UserInfoDTO, PublicKeyResponse, LoginRespose} from "../types";
+import type { LoginRequest, UserInfoDTO, PublicKeyResponse, LoginRespose, CreatePinUserRequest, CreatePinUserResponse} from "../types";
 
 export const authService = {
 //lay khoa rsa 
@@ -26,6 +26,12 @@ export const authService = {
     getCurrentUser: async () => {
         const response = await axiosClient.get<UserInfoDTO>('/Authentication/info');
         return response.data;
+    },
+    
+    //tao ma pin
+    createPinUser: async (data: CreatePinUserRequest) => {
+        const response = await axiosClient.post<CreatePinUserResponse>('/Authentication/pins', data);
+        return response.data
     }
 };
 

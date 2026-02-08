@@ -53,6 +53,22 @@
   },
   {
     "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
+    "Method": "CreatePin",
+    "RelativePath": "api/Authentication/pins",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.CreatePinRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.AuthenticationController",
     "Method": "GetPublicKey",
     "RelativePath": "api/Authentication/public-key",
     "HttpMethod": "GET",
@@ -94,6 +110,64 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.DashboardController",
+    "Method": "GetDataChart",
+    "RelativePath": "api/Dashboard/data-chart",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.DashboardController\u002BGetDataChartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.DashboardController",
+    "Method": "GetTransactionHisory",
+    "RelativePath": "api/Dashboard/data-history",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.DashboardController\u002BGetDataChartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.DashboardController",
+    "Method": "GetTotalMoney",
+    "RelativePath": "api/Dashboard/total-money",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.DashboardController\u002BGetDataChartRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
+    "Method": "checkPin",
+    "RelativePath": "api/Transaction/checkPin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
     "Method": "getInfor",
     "RelativePath": "api/Transaction/getInfo",
@@ -111,12 +185,44 @@
   },
   {
     "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
-    "Method": "getPublicKey",
-    "RelativePath": "api/Transaction/getPublicKey",
+    "Method": "GetTransactionHisory",
+    "RelativePath": "api/Transaction/history",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.TransactionHisoryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
+    "Method": "GetPublicKey",
+    "RelativePath": "api/Transaction/key-public",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
+    "Method": "registerPin",
+    "RelativePath": "api/Transaction/register-pin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.RegisterPinRequest",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -128,8 +234,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "command",
-        "Type": "BankingATMSystem.Application.Features.Transfer.TransferCommand",
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.TransferRequest",
         "IsRequired": true
       }
     ],

@@ -40,7 +40,7 @@ axiosClient.interceptors.request.use(
       return config;
     }
     if (config.method !== "get" && config.data) {
-      const secretKey = sessionStorage.getItem("signature");
+      const secretKey = localStorage.getItem("signature");
 
       if (secretKey) {
         try {

@@ -38,5 +38,15 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
             .WithOne(p => p.User)
             .HasForeignKey<UserAccount>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+        // Cấu hình Index cho bảng Transactions
+        modelBuilder.Entity<Transactions>(entity =>
+    {
+        // Tạo Index hỗn hợp: Tìm theo người gửi/nhận VÀ sắp xếp theo ngày giảm dần
+        // IncludeProperties (nếu dùng SQL Server) để query không cần về bảng chính (Covering Index)
+        entity.HasIndex(t => new { t.UserId, t.ReceiverUserId, t.CreateAt })
+              .HasDatabaseName("IX_Transactions_History_Search")
+              .IsDescending(false, false, true) // Date giảm dần
+              .IncludeProperties(t => new { t.Amount, t.Description });
+    });
     }
     }

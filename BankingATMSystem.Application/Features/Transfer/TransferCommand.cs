@@ -15,7 +15,6 @@ namespace BankingATMSystem.Application.Features.Transfer
         public string ReceiverAccountNumber { get; set; }
         public decimal AmountMoney { get; set; }
         public string Pin { get; set; }
-        public string Content { get; set; }
         public string Types { get; set; }
         public string Description { get; set; }
     }

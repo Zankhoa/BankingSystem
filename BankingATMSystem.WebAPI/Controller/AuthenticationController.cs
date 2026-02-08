@@ -9,6 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.WebSockets;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
 
 
 namespace BankingATMSystem.WebAPI.Controller
@@ -73,6 +74,23 @@ namespace BankingATMSystem.WebAPI.Controller
                 return Unauthorized(new { message = ex.Message }); 
             }
         }
+        [Authorize]
+        [HttpPost("pins")]
+        public async Task<IActionResult> CreatePin([FromBody] CreatePinRequest request)
+        {
+            var userAccountId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var pin = _rsaService.Decrypt(request.HashPin);
+            var password = _rsaService.Decrypt(request.HashPassword);
+            var command = new RegisterPinCommand
+            {
+                userAccountId = userAccountId,
+                Pin = pin,
+                Password = password,
+            };
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
 
         [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
@@ -162,6 +180,15 @@ namespace BankingATMSystem.WebAPI.Controller
             }
         }
 
+    }
+
+    public class CreatePinRequest
+    {
+        [JsonPropertyName("PinHash")]
+        public string HashPin { get; set; }
+
+        [JsonPropertyName("PasswordHash")]
+        public string HashPassword { get; set; }
     }
     public class RegisterPayload
     {

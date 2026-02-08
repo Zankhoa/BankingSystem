@@ -10,6 +10,7 @@ namespace BankingATMSystem.Application.Common.Models
     {
         public string UserName { get; set; }
         public decimal Balance { get; set; }
+        public bool HasPin { get; set; }
 
     }
 }

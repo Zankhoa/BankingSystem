@@ -36,6 +36,13 @@ namespace BankingATMSystem.Infrastructure.Migrations
                     b.Property<DateTime>("Expires")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("JwtId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Token")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -43,6 +50,9 @@ namespace BankingATMSystem.Infrastructure.Migrations
                     b.Property<string>("UserAccountId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isRevoked")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -71,7 +81,7 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
                     b.Property<string>("ReceiverUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RequestIs")
                         .HasColumnType("nvarchar(max)");
@@ -87,7 +97,11 @@ namespace BankingATMSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "ReceiverUserId", "CreateAt")
+                        .IsDescending(false, false, true)
+                        .HasDatabaseName("IX_Transactions_History_Search");
+
+                    SqlServerIndexBuilderExtensions.IncludeProperties(b.HasIndex("UserId", "ReceiverUserId", "CreateAt"), new[] { "Amount", "Description" });
 
                     b.ToTable("TransactionsHistory");
                 });

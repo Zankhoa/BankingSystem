@@ -14,6 +14,7 @@ namespace BankingATMSystem.Application.Features.Auth
         }
         public async Task<UserInfoDTO> Handle(GetUserInforCommand request, CancellationToken cancellationToken)
         {
+            var hasPin = false; 
             //tim user 
             var userAccount = await _context.UserAccount.AsNoTracking().FirstOrDefaultAsync(x => x.Id == request.UserId, cancellationToken);
             if (userAccount == null)
@@ -22,11 +23,16 @@ namespace BankingATMSystem.Application.Features.Auth
             }
             var users = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == userAccount.UserId, cancellationToken);
             if (users == null) throw new Exception("khong tim thay nguoi dung");
+            if(!string.IsNullOrEmpty(users.PinHash))
+            {
+                hasPin = true;
+            }
             //dong goi ket qua tra ve
             return new UserInfoDTO
             {
                 UserName = users.Name,
-                Balance = users.Balance
+                Balance = users.Balance,
+                HasPin = hasPin,
             };
         }
     }

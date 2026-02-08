@@ -27,7 +27,7 @@ namespace BankingATMSystem.Application.Features.Transfer
 
                 //lay thong tin người gửi
                 //luu y khong dung asnotracking vi ta can update
-                var senderAccount = await _context.Users.FirstOrDefaultAsync(x => x.Id == request.SenderId, cancellationToken);
+                var senderAccount = await _context.Users.FirstOrDefaultAsync(x => x.UserAccount.Id == request.SenderId, cancellationToken);
                 if (senderAccount == null) throw new Exception("Account not exist");
                 if (senderAccount.Balance < request.AmountMoney) throw new Exception("tai khoan khong du tien");
 
@@ -35,7 +35,8 @@ namespace BankingATMSystem.Application.Features.Transfer
                 var receiverAccount = await _context.Users.FirstOrDefaultAsync(u => u.AccountNumber == request.ReceiverAccountNumber, cancellationToken);
                 if (receiverAccount == null) throw new Exception("so tai khoan hien khong ton tai");
                 //if (senderAccount == receiverAccount) throw new Exception("khong the tu chuyen cho chinh minh");
-                if (!_pinHash.VerifyPinAsync(request.Pin, senderAccount.PinHash)){
+                if (!_pinHash.VerifyPinAsync(request.Pin, senderAccount.PinHash))
+                {
                     throw new Exception("Ma pin sai");
                 }
                 //thuc hien giao dich

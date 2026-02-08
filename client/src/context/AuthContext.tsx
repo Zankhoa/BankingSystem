@@ -7,7 +7,6 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserInfoDTO | null>(null);
-    const [name, setName] = useState<string>("");
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -19,7 +18,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 console.log("Current User:", userInfo);
                 setUser(userInfo);
                 setIsAuthenticated(true);
-                setName(userInfo.userName);
             } catch {
                 setUser(null);
                 setIsAuthenticated(false);
@@ -37,7 +35,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const userInfo = await authService.getCurrentUser();
             setUser(userInfo);
             setIsAuthenticated(true);
-            setName(userInfo.userName);
         } catch(error) {  const axiosError = error as AxiosError<APIResponse>;
               console.error("Login error:", axiosError); } 
         finally { setIsLoading(false); }
@@ -56,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ name, user, isAuthenticated, isLoading, loginContext, logoutContext }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, isLoading, loginContext, logoutContext }}>
             {children}
         </AuthContext.Provider>
     );

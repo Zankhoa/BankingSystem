@@ -18,6 +18,7 @@ namespace BankingATMSystem.WebAPI.Middlewares
 
         }
         public async Task Invoke(HttpContext context)
+        
         {
             string path = context.Request.Path.Value?.ToLower() ?? "";
             if (path.Contains("/login") ||
