@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "BankingATMSystem.WebAPI\\BankingATMSystem.WebAPI.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "BankingATMSystem.Worker\\BankingATMSystem.Worker.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

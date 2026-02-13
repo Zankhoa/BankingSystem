@@ -52,6 +52,8 @@ namespace BankingATMSystem.Application.Features.Transfer
                    .Replace("+", "")
                    .Replace("/", "")
                    .Replace("=", "");
+                var ledgerId = Guid.CreateVersion7().ToString();
+
                 var transactionRecord = new Transactions
                 {
                     Id = id,
@@ -60,10 +62,27 @@ namespace BankingATMSystem.Application.Features.Transfer
                     Amount = request.AmountMoney,
                     TransactionType = request.Types,
                     ReceiverUserId = receiverAccount.Id,
+                    LedgerEntryId = ledgerId,
                     CreateAt = DateTime.UtcNow,
                     Description = request.Description,
+                    
                 };
                 _context.TransactionsHistory.Add(transactionRecord);
+
+                var ledger = new LedgerEntry
+                {
+                    Id = ledgerId,
+                    UserId = senderAccount.Id,
+                    TransactionId = id,
+                    TransactionExternalId ="",
+                    Amount = request.AmountMoney,
+                    Status = "Success",
+                    BalanceAfter = senderAccount.Balance,
+                    EntryType = "Debit",
+                    CreateAt = DateTime.Now
+
+                };
+                _context.LedgerEntry.Add(ledger);
 
                 //luu xuong db(commit)
                 await _context.SaveChangesAsync(cancellationToken);

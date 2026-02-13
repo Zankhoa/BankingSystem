@@ -1,10 +1,6 @@
 ﻿using BankingATMSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BankingATMSystem.Application.Common.Interfaces
 {
@@ -14,6 +10,8 @@ namespace BankingATMSystem.Application.Common.Interfaces
         DbSet<Transactions> TransactionsHistory { get; }
         DbSet<UserAccount> UserAccount { get; }
         DbSet<RefreshToken> RefreshToken { get; }
+        DbSet<TransactionExternal> TransactionExternal { get; }
+        DbSet<LedgerEntry> LedgerEntry { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 

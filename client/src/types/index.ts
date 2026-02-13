@@ -41,14 +41,12 @@ export interface RegisterResponse {
 export interface PublicKeyResponse {
   publicKey: string;
 }
-export interface PublicKeyResponse {
-  publicKey: string;
-}
 
 export interface UserInfoDTO {
   userName: string;
   balance: number;
   hasPin: boolean;
+  accountNumber: string;
 }
 
 export interface TransferRequest {
@@ -112,5 +110,15 @@ export interface TransactionHisoryDashboardResponse {
   amountMoney: number; 
   status: string;
   description: string;
+}
+
+export interface TransferExternalRequest {
+  RequestId: string;
+  AmountMoney: number;
+  ReceiverAccountNumber: string;
+  Pin: string;
+}
+export interface TransferExternalResponse {
+  message: string;
 }
 

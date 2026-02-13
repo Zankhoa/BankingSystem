@@ -66,11 +66,19 @@
               "target": "Package",
               "version": "[12.1.1, )"
             },
+            "MassTransit": {
+              "target": "Package",
+              "version": "[8.0.16, )"
+            },
             "MediatR": {
               "target": "Package",
               "version": "[14.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.17, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
               "version": "[8.0.17, )"
             },
@@ -225,13 +233,21 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "MassTransit.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.16, )"
+            },
             "MassTransit.RabbitMQ": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[8.0.16, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.17, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
               "version": "[8.0.17, )"
             },
@@ -244,6 +260,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.17, )"
+            },
+            "Microsoft.Extensions.Http": {
+              "target": "Package",
+              "version": "[10.0.3, )"
             },
             "StackExchange.Redis": {
               "target": "Package",

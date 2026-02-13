@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace BankingATMSystem.WebAPI.Controller
 {
@@ -60,7 +61,6 @@ namespace BankingATMSystem.WebAPI.Controller
             var result = await _mediator.Send(command);
             return Ok(result);
         }
-
         public class GetDataChartRequest
         {
             public DateTime FromDate { get; set; }

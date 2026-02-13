@@ -15,6 +15,8 @@ namespace BankingATMSystem.Domain.Entities
         [MaxLength(20)]
         public string TransactionType { get; set; }
         public string ReceiverUserId { get; set; }
+        public LedgerEntry ledger { get; set; }
+        public string LedgerEntryId { get; set; }
         public string? RequestIs { get; set; }
         public DateTime CreateAt { get; set; }
         [MaxLength(100)]

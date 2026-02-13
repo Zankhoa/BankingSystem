@@ -1,6 +1,7 @@
 ﻿
 using BankingATMSystem.Application.Common.Interfaces;
 using BankingATMSystem.Domain.Entities;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankingATMSystem.Infrastructure.Persistence;
@@ -17,11 +18,16 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Transactions> TransactionsHistory { get; set; }
     public DbSet<UserAccount> UserAccount { get; set; }
     public DbSet<RefreshToken> RefreshToken { get; set; }
+    public DbSet<TransactionExternal> TransactionExternal { get; set; }
+    public DbSet<LedgerEntry> LedgerEntry { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-
+        // Thêm 3 bảng: InboxState, OutboxMessage, OutboxState
+        modelBuilder.AddInboxStateEntity();
+        modelBuilder.AddOutboxMessageEntity();
+        modelBuilder.AddOutboxStateEntity();
         // --- Cấu hình Index (Để tìm kiếm nhanh) ---
         modelBuilder.Entity<Users>()
             .HasIndex(a => a.AccountNumber)
@@ -33,11 +39,27 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         modelBuilder.Entity<Users>()
             .Property(u => u.RowVersion)
             .IsRowVersion(); // Đánh dấu đây là cột concurrency token
+
+         //moi quan he 1 1 voi leger va transaction
+        modelBuilder.Entity<LedgerEntry>().HasOne(u => u.Transactions)
+            .WithOne(p => p.ledger)
+            .HasForeignKey<Transactions>(p => p.LedgerEntryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        //moi quan he 1 1 voi leger va transactionExternal
+        modelBuilder.Entity<LedgerEntry>().HasOne(u => u.TransactionExternal)
+            .WithOne(p => p.Ledger)
+            .HasForeignKey<TransactionExternal>(p => p.LedgerEntryId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         //moi quan he 1 1 voi user va user Token
         modelBuilder.Entity<Users>().HasOne(u => u.UserAccount)
             .WithOne(p => p.User)
             .HasForeignKey<UserAccount>(p => p.UserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // Index để query lịch sử nhanh
+        modelBuilder.Entity<LedgerEntry>().HasIndex(e => e.Id);
         // Cấu hình Index cho bảng Transactions
         modelBuilder.Entity<Transactions>(entity =>
     {
@@ -49,4 +71,4 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
               .IncludeProperties(t => new { t.Amount, t.Description });
     });
     }
-    }
+}

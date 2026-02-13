@@ -23,6 +23,8 @@ namespace BankingATMSystem.WebAPI.Middlewares
             string path = context.Request.Path.Value?.ToLower() ?? "";
             if (path.Contains("/login") ||
                 path.Contains("/register") ||
+                path.Contains("/mock-bank") ||
+                path.Contains("/webhooks") ||
                 path.Contains("/refresh-token"))
             {
                 await _next(context);

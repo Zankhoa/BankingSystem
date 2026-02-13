@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingATMSystem.Infrastructure", "BankingATMSystem.Infrastructure\BankingATMSystem.Infrastructure.csproj", "{BC9F200A-49B8-4442-8AB9-D3AA432CDB9D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingATMSystem.WebAPI", "BankingATMSystem.WebAPI\BankingATMSystem.WebAPI.csproj", "{001E8324-332F-4821-BB40-F6DFB0A8E573}"
+	ProjectSection(ProjectDependencies) = postProject
+		{95270361-863B-4739-A57B-2CD4FA1EF05B} = {95270361-863B-4739-A57B-2CD4FA1EF05B}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankingATMSystem.Worker", "BankingATMSystem.Worker\BankingATMSystem.Worker.csproj", "{95270361-863B-4739-A57B-2CD4FA1EF05B}"
 EndProject
@@ -86,5 +89,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D58673D-C37A-42C7-A2F5-B963258D6CA9}
 	EndGlobalSection
 EndGlobal

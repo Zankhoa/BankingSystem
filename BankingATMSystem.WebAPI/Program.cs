@@ -5,8 +5,11 @@ using BankingATMSystem.Application.Features.Withdraw;
 using BankingATMSystem.Infrastructure.Persistence;
 using BankingATMSystem.Infrastructure.Security;
 using BankingATMSystem.Infrastructure.Service;
+using BankingATMSystem.Infrastructure.Service.Bank;
 using BankingATMSystem.WebAPI.Middlewares;
+using BankingATMSystem.Worker;
 using FluentValidation;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -37,12 +40,23 @@ builder.Services.AddScoped<IIdempotencyService, IdempotencyService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddSingleton<RsaService>(); // Bắt buộc Singleton
+//builder.Services.AddHttpClient<IExternalBankService, ExternalBankService>();
+builder.Services.AddHttpClient<IExternalBankService, ExternalBankService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7046/");
+})
+.ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+});
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(IdempotencyBehavior<,>));
+
+
 // 3. Đăng ký MediatR (nên trỏ tới Handler)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(WithdrawHandler).Assembly)
 );
-builder.Services.AddMediatR(cfg => 
+builder.Services.AddMediatR(cfg =>
 cfg.RegisterServicesFromAssembly(typeof(BankingATMSystem.Application.Features.Auth.LoginCommand).Assembly));
 
 //add fulvalidation
@@ -57,7 +71,7 @@ builder.Services.AddCors(policy =>
                    .AllowAnyMethod() // GET, POST, PUT...
                    .AllowAnyHeader()
                    .AllowCredentials();
-});
+        });
 });
 // 2. CẤU HÌNH JWT ĐỂ ĐỌC TỪ COOKIE
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -114,6 +128,25 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// CODE SỬA LẠI:
+builder.Services.AddMassTransit(x => // Đổi tên biến thành x cho ngắn gọn dễ nhìn
+{
+    // 1. Đăng ký Consumer PHẢI ĐẶT Ở ĐÂY (Bên ngoài RabbitMQ)
+    x.AddConsumer<ProcessBankCallbackConsumer>();
+
+    // 2. Cấu hình Transport
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h =>
+        {
+            h.Username("guest");
+            h.Password("guest");
+        });
+
+        // Lúc này ConfigureEndpoints mới thấy Consumer ở trên để tạo Queue
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -128,6 +161,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseMiddleware<SignatureValid>();
+app.UseMiddleware<WebhookSignatureMiddleware>();
 
 try
 {

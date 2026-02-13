@@ -33,6 +33,7 @@ namespace BankingATMSystem.Application.Features.Auth
                 UserName = users.Name,
                 Balance = users.Balance,
                 HasPin = hasPin,
+                AccountNumber = users.AccountNumber
             };
         }
     }

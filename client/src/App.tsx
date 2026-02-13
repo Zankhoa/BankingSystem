@@ -12,6 +12,7 @@ import ProtectedRoute from './component/ProtectedRoute';
 import './index.css';
 import DashboardPage from './page/DasboardPage';
 import TransactionHistory from './page/HistoryTransactionPage';
+import TransferExternalPage from './page/TrafernExternalPage';
 
 
 // 1. TẠO COMPONENT CON ĐỂ XỬ LÝ ROUTES & ANIMATION
@@ -32,6 +33,7 @@ const AnimatedRoutes = () => {
         <Route element={<ProtectedRoute />}>
          <Route path="/test" element={<DashboardPage />} />
           <Route path="/transfer/internal" element={<TransferPage />} />
+          <Route path="/transfer/external" element={<TransferExternalPage />} />
           <Route path="/transfer/register-pin" element={<CreatePinPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/header" element={<Header />} />

@@ -196,6 +196,37 @@
         }
       }
     },
+    "/api/webhooks/bank/callback": {
+      "post": {
+        "tags": [
+          "BankWebhook"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCallbackPayload"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCallbackPayload"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCallbackPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Dashboard/data-history": {
       "post": {
         "tags": [
@@ -278,6 +309,37 @@
             "application/*+json": {
               "schema": {
                 "$ref": "#/components/schemas/GetDataChartRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/mock-bank/payout": {
+      "post": {
+        "tags": [
+          "MockBank"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalTransferRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalTransferRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExternalTransferRequest"
               }
             }
           }
@@ -436,10 +498,91 @@
           }
         }
       }
+    },
+    "/api/TransferExternal/transfer-external": {
+      "post": {
+        "tags": [
+          "TransferExternal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferExternalRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferExternalRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferExternalRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/TransferExternal/checkPin": {
+      "post": {
+        "tags": [
+          "TransferExternal"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/TransferExternal/key-public": {
+      "get": {
+        "tags": [
+          "TransferExternal"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "BankCallbackPayload": {
+        "type": "object",
+        "properties": {
+          "transactionExtenalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CreatePinRequest": {
         "type": "object",
         "properties": {
@@ -448,6 +591,28 @@
             "nullable": true
           },
           "PasswordHash": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ExternalTransferRequest": {
+        "type": "object",
+        "properties": {
+          "transactionExternalId": {
+            "type": "string",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          },
+          "toAccount": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
             "type": "string",
             "nullable": true
           }
@@ -556,6 +721,28 @@
           "toDate": {
             "type": "string",
             "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransferExternalRequest": {
+        "type": "object",
+        "properties": {
+          "receiverAccountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "amountMoney": {
+            "type": "number",
+            "format": "double"
+          },
+          "pin": {
+            "type": "string",
+            "nullable": true
+          },
+          "requestId": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

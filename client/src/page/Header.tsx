@@ -62,7 +62,7 @@ const Header = () => {
               </NavLink>
 
               <NavLink
-                to="/transfer/bank"
+                to="/transfer/external"
                 className={({ isActive }) =>
                   `block px-4 py-3 rounded-b-lg
                    ${isActive

@@ -158,6 +158,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.MockBankController",
+    "Method": "Payout",
+    "RelativePath": "api/mock-bank/payout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.ExternalTransferRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "BankingATMSystem.WebAPI.Controller.TransactionController",
     "Method": "checkPin",
     "RelativePath": "api/Transaction/checkPin",
@@ -236,6 +252,58 @@
       {
         "Name": "request",
         "Type": "BankingATMSystem.WebAPI.Controller.TransferRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransferExternalController",
+    "Method": "checkPin",
+    "RelativePath": "api/TransferExternal/checkPin",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransferExternalController",
+    "Method": "GetPublicKey",
+    "RelativePath": "api/TransferExternal/key-public",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controller.TransferExternalController",
+    "Method": "TransferExternal",
+    "RelativePath": "api/TransferExternal/transfer-external",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BankingATMSystem.WebAPI.Controller.TransferExternalRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankingATMSystem.WebAPI.Controllers.BankWebhookController",
+    "Method": "HandleCallback",
+    "RelativePath": "api/webhooks/bank/callback",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "payload",
+        "Type": "BankingATMSystem.WebAPI.Controllers.BankCallbackPayload",
         "IsRequired": true
       }
     ],
