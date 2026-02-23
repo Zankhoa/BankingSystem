@@ -66,10 +66,10 @@ Hệ thống được thiết kế theo tiêu chuẩn Enterprise, áp dụng **C
 ### Cài đặt Frontend
 ```bash
 # 1. Clone repository
-git clone [https://github.com/your-username/zankhoa-bank.git](https://github.com/your-username/zankhoa-bank.git)
+git clone https://github.com/Zankhoa/BankingSystem
 
 # 2. Di chuyển vào thư mục frontend
-cd zankhoa-bank/frontend
+cd BankingSystem/client
 
 # 3. Cài đặt các package cần thiết
 npm install
