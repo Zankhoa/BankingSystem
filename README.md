@@ -1,4 +1,4 @@
-# 🏦 ZanKhoa Bank - Digital Banking & Interbank Transfer System
+# 🏦 Project Bank - Digital Banking & Interbank Transfer System
 
 Một hệ thống Ngân hàng số toàn diện (Full-stack Digital Banking) mô phỏng các nghiệp vụ Core Banking thực tế. Dự án cung cấp giải pháp chuyển tiền nội bộ, chuyển tiền liên ngân hàng, quản lý lịch sử giao dịch và đối soát dữ liệu với hiệu năng cao.
 
@@ -38,8 +38,6 @@ Hệ thống được thiết kế theo tiêu chuẩn Enterprise, áp dụng **C
 * **Framework:** ReactJS / Next.js
 * **Styling:** Tailwind CSS (Giao diện chuẩn Modern Banking, Responsive design).
 * **Animation:** Framer Motion (Micro-interactions, hiệu ứng mượt mà).
-* **State Management & Data Fetching:** * `@tanstack/react-query` (Quản lý Infinite Scroll, Caching dữ liệu giao dịch).
-  * `react-intersection-observer` (Trigger load data khi cuộn trang).
 * **UI Components:** `react-datepicker` (Bộ lọc ngày tháng tùy chỉnh).
 
 ---
