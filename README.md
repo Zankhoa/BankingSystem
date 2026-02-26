@@ -1,6 +1,6 @@
-# 🏦 Project Bank - Digital Banking & Interbank Transfer System
+# 🏦 Project Banking systems
 
-Một hệ thống Ngân hàng số toàn diện (Full-stack Digital Banking) mô phỏng các nghiệp vụ Core Banking thực tế. Dự án cung cấp giải pháp chuyển tiền nội bộ, chuyển tiền liên ngân hàng, quản lý lịch sử giao dịch và đối soát dữ liệu với hiệu năng cao.
+Một hệ thống Ngân hàng mô phỏng các nghiệp vụ Core Banking. Dự án cung cấp giải pháp chuyển tiền nội bộ, chuyển tiền liên ngân hàng, quản lý lịch sử giao dịch và đối soát dữ liệu với hiệu năng cao.
 
 Hệ thống được thiết kế theo tiêu chuẩn Enterprise, áp dụng **Clean Architecture**, **CQRS**, và **Domain-Driven Design (DDD)** nhằm đảm bảo tính mở rộng, dễ bảo trì và xử lý tải cao.
 
